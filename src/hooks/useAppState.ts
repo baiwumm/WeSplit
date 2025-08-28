@@ -222,36 +222,6 @@ export const useAppState = () => {
     });
   }, [saveToStorage]);
 
-  // 计算分账结果
-  const getSettlementResult = useCallback((): SettlementResult | null => {
-    return new Promise<SettlementResult | null>((resolve) => {
-      setState(prev => {
-        if (!prev.currentGroup || prev.currentGroup.expenses.length === 0) {
-          resolve(null);
-          return prev;
-        }
-
-        const { personBalances, optimalTransfers } = calculateSettlement(
-          prev.currentGroup.expenses,
-          prev.currentGroup.members
-        );
-
-        const totalAmount = prev.currentGroup.expenses.reduce((sum, expense) => sum + expense.amount, 0);
-
-        const result: SettlementResult = {
-          groupId: prev.currentGroup.id,
-          personBalances,
-          optimalTransfers,
-          totalAmount,
-          calculatedAt: new Date()
-        };
-
-        resolve(result);
-        return prev;
-      });
-    }) as any;
-  }, []);
-
   // 修复后的同步版本
   const getSettlementResultSync = useCallback((): SettlementResult | null => {
     let result: SettlementResult | null = null;

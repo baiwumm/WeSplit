@@ -17,7 +17,6 @@ export const HomePage: React.FC = () => {
   const {
     currentGroup,
     groups,
-    createGroup,
     updateGroup,
     removeGroup,
     switchGroup,
@@ -91,8 +90,6 @@ export const HomePage: React.FC = () => {
       return;
     }
 
-    const result = createGroup(groupForm.name, groupForm.description);
-
     setGroupForm({ name: '', description: '' });
     setIsCreateGroupOpen(false);
   };
@@ -141,8 +138,6 @@ export const HomePage: React.FC = () => {
 
   // 过滤掉已删除的成员
   const activeMembers = currentGroup ? currentGroup.members.filter(member => !member.isDeleted) : [];
-  const activeMemberCount = activeMembers.length;
-  const totalMemberCount = currentGroup ? currentGroup.members.length : 0;
 
   if (!currentGroup) {
     return (

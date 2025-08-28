@@ -106,7 +106,6 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
       {activeTab === 'balances' && (
         <div className="grid gap-4">
           {settlementResult.personBalances.map(balance => {
-            const person = people.find(p => p.id === balance.personId);
             const isCreditor = balance.balance > 0.01;
             const isDebtor = balance.balance < -0.01;
 
