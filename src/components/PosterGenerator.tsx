@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import html2canvas from 'html2canvas';
 import { Icon } from '@iconify-icon/react';
 import type { SettlementResult, Person, Group } from '../types';
 import { formatCurrency, formatDate } from '../utils';
@@ -48,65 +47,224 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
   };
 
   const generatePoster = async () => {
-    if (!posterRef.current) {
-      alert('海报元素未找到，请稍后重试');
-      return;
-    }
-
     setIsGenerating(true);
 
     try {
-      console.log('开始生成海报...');
 
-      // 等待一小会确保 DOM 渲染完成
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // 使用Canvas API直接绘制海报，完全避开CSS兼容性问题
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d')!;
 
-      const canvas = await html2canvas(posterRef.current, {
-        backgroundColor: '#ffffff',
-        scale: 2,
-        useCORS: true,
-        allowTaint: false,
-        logging: true,
-        width: posterRef.current.offsetWidth,
-        height: posterRef.current.offsetHeight,
-        scrollX: 0,
-        scrollY: 0
+      // 设置高清尺寸
+      const width = 1200;
+      const height = 1600;
+      canvas.width = width;
+      canvas.height = height;
+
+      // 绘制渐变背景
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradient.addColorStop(0, '#dbeafe'); // blue-50
+      gradient.addColorStop(1, '#e0e7ff'); // indigo-100
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      let y = 80;
+
+      // 绘制顶部图标
+      ctx.fillStyle = '#2563eb'; // blue-600
+      ctx.beginPath();
+      ctx.arc(width / 2, y + 40, 32, 0, 2 * Math.PI);
+      ctx.fill();
+
+      y += 120;
+
+      // 标题
+      ctx.fillStyle = '#111827'; // gray-900
+      ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('分账结果', width / 2, y);
+
+      y += 60;
+
+      // 组名
+      ctx.font = '36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillStyle = '#374151'; // gray-700
+      ctx.fillText(group?.name || '未命名组', width / 2, y);
+
+      y += 50;
+
+      // 日期
+      ctx.font = '28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillStyle = '#4b5563'; // gray-600
+      ctx.fillText(formatDate(settlementResult!.calculatedAt), width / 2, y);
+
+      y += 80;
+
+      // 总览卡片
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(80, y, width - 160, 120);
+
+      // 添加卡片阴影
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.05)';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetY = 2;
+      ctx.fillRect(80, y, width - 160, 120);
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
+
+      // 总消费
+      ctx.fillStyle = '#4b5563'; // gray-600
+      ctx.font = '28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('总消费', width / 4, y + 40);
+
+      ctx.fillStyle = '#111827'; // gray-900
+      ctx.font = 'bold 40px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText(formatCurrency(settlementResult!.totalAmount), width / 4, y + 80);
+
+      // 参与人数
+      ctx.fillStyle = '#4b5563'; // gray-600
+      ctx.font = '28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText('参与人数', (width * 3) / 4, y + 40);
+
+      ctx.fillStyle = '#111827'; // gray-900
+      ctx.font = 'bold 40px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText(`${people.length} 人`, (width * 3) / 4, y + 80);
+
+      y += 180;
+
+      // 个人明细标题
+      ctx.fillStyle = '#111827'; // gray-900
+      ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('个人明细', 80, y);
+      y += 60;
+
+      // 个人明细卡片
+      settlementResult!.personBalances.forEach((balance, index) => {
+        const isCreditor = balance.balance > 0.01;
+        const isDebtor = balance.balance < -0.01;
+        const cardY = y + (index * 120);
+
+        // 绘制卡片背景
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(80, cardY, width - 160, 100);
+
+        // 添加卡片圆角效果（通过多个矩形模拟）
+        ctx.fillRect(80, cardY, width - 160, 100);
+
+        // 人名
+        ctx.fillStyle = '#111827'; // gray-900
+        ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(getPersonName(balance.personId), 120, cardY + 40);
+
+        // 支付和分摊信息
+        ctx.fillStyle = '#6b7280'; // gray-500
+        ctx.font = '24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.fillText(`支付 ${formatCurrency(balance.totalPaid)} · 分摊 ${formatCurrency(balance.totalShare)}`, 120, cardY + 70);
+
+        // 状态和金额
+        let statusText = '';
+        let statusColor = '';
+        let amountText = '';
+
+        if (isCreditor) {
+          statusText = '应收';
+          statusColor = '#16a34a'; // green-600
+          amountText = `+${formatCurrency(balance.balance)}`;
+        } else if (isDebtor) {
+          statusText = '应付';
+          statusColor = '#dc2626'; // red-600
+          amountText = formatCurrency(Math.abs(balance.balance));
+        } else {
+          statusText = '已结清';
+          statusColor = '#4b5563'; // gray-600
+          amountText = formatCurrency(0);
+        }
+
+        // 状态文字
+        ctx.fillStyle = statusColor;
+        ctx.font = '28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(statusText, width - 120, cardY + 35);
+
+        // 金额
+        ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.fillText(amountText, width - 120, cardY + 70);
       });
 
-      console.log('海报生成成功，开始下载...');
+      y += settlementResult!.personBalances.length * 120 + 60;
 
-      // 创建下载链接
+      // 转账方案（如果有）
+      if (settlementResult!.optimalTransfers.length > 0) {
+        // 转账方案标题
+        ctx.fillStyle = '#111827'; // gray-900
+        ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('转账方案', 80, y);
+        y += 60;
+
+        // 转账方案卡片背景
+        const transferCardHeight = settlementResult!.optimalTransfers.length * 60 + 40;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(80, y, width - 160, transferCardHeight);
+
+        y += 40;
+
+        settlementResult!.optimalTransfers.forEach((transfer, index) => {
+          const transferY = y + (index * 60);
+
+          // 转账项背景
+          ctx.fillStyle = '#f9fafb'; // gray-50
+          ctx.fillRect(120, transferY - 20, width - 240, 50);
+
+          // 转账信息
+          ctx.fillStyle = '#374151'; // gray-700
+          ctx.font = '28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText(`${getPersonName(transfer.fromPersonId)} → ${getPersonName(transfer.toPersonId)}`, 140, transferY + 8);
+
+          // 转账金额
+          ctx.fillStyle = '#dc2626'; // red-600
+          ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillText(formatCurrency(transfer.amount), width - 140, transferY + 8);
+        });
+
+        y += transferCardHeight + 40;
+      }
+
+      // 底部标识
+      y = height - 80;
+      ctx.strokeStyle = '#d1d5db'; // gray-300
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(80, y - 40);
+      ctx.lineTo(width - 80, y - 40);
+      ctx.stroke();
+
+      ctx.fillStyle = '#6b7280'; // gray-500
+      ctx.font = '24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`由人均分账应用生成 · ${formatDate(new Date())}`, width / 2, y);
+
+      // 下载图片
       const link = document.createElement('a');
       const fileName = `分账结果-${group?.name || '未命名组'}-${new Date().toLocaleDateString('zh-CN').replace(/\//g, '-')}.png`;
       link.download = fileName;
       link.href = canvas.toDataURL('image/png', 0.95);
 
-      // 添加到页面并点击下载
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      console.log('海报下载成功');
       alert('海报下载成功！');
 
     } catch (error) {
       console.error('生成海报失败：', error);
-
-      let errorMessage = '生成海报失败';
-
-      if (error instanceof Error) {
-        if (error.message.includes('SecurityError')) {
-          errorMessage = '安全错误：可能存在跨域图片问题';
-        } else if (error.message.includes('QuotaExceededError')) {
-          errorMessage = '内存不足：海报尺寸过大';
-        } else if (error.message.includes('NetworkError')) {
-          errorMessage = '网络错误：请检查网络连接';
-        } else {
-          errorMessage = `生成失败：${error.message}`;
-        }
-      }
-
-      alert(errorMessage + '。请稍后重试或联系技术支持。');
+      alert(`生成失败：${error instanceof Error ? error.message : '未知错误'}。请稍后重试或联系技术支持。`);
     } finally {
       setIsGenerating(false);
     }
@@ -128,7 +286,7 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
           {/* 标题 */}
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Icon icon="material-symbols:receipt-long" className="w-8 h-8 text-white" />
+              <Icon icon="material-symbols:receipt-long" className="text-2xl text-white" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">分账结果</h1>
             <h2 className="text-lg text-gray-700">{group.name}</h2>
@@ -227,7 +385,7 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
                       <span className="font-medium">
                         {getPersonName(transfer.fromPersonId)}
                       </span>
-                      <Icon icon="material-symbols:arrow-forward" className="w-4 h-4 text-gray-400" />
+                      <Icon icon="material-symbols:arrow-forward" className="text-sm text-gray-400" />
                       <span className="font-medium">
                         {getPersonName(transfer.toPersonId)}
                       </span>
@@ -257,12 +415,12 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
           <Button onClick={generatePoster} disabled={isGenerating}>
             {isGenerating ? (
               <>
-                <Icon icon="material-symbols:progress-activity" className="w-4 h-4 mr-2 animate-spin" />
+                <Icon icon="material-symbols:progress-activity" className="text-sm mr-2 animate-spin" />
                 生成中...
               </>
             ) : (
               <>
-                <Icon icon="material-symbols:download" className="w-4 h-4 mr-2" />
+                <Icon icon="material-symbols:download" className="text-sm mr-2" />
                 下载海报
               </>
             )}

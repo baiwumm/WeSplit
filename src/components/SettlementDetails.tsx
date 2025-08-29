@@ -20,7 +20,7 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
   if (!settlementResult) {
     return (
       <div className="text-center py-12">
-        <Icon icon="material-symbols:calculate" className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+        <Icon icon="material-symbols:calculate" className="text-6xl text-gray-300 mx-auto mb-4" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">暂无分账数据</h3>
         <p className="text-gray-600">添加消费记录后即可查看分账结果</p>
       </div>
@@ -66,7 +66,7 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
         </div>
         {onGeneratePoster && (
           <Button onClick={onGeneratePoster} variant="outline">
-            <Icon icon="material-symbols:image" className="w-4 h-4 mr-2" />
+            <Icon icon="material-symbols:image" className="text-sm mr-2" />
             生成海报
           </Button>
         )}
@@ -106,8 +106,24 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
       {activeTab === 'balances' && (
         <div className="grid gap-4">
           {settlementResult.personBalances.map(balance => {
-            const isCreditor = balance.balance > 0.01;
-            const isDebtor = balance.balance < -0.01;
+            // 使用严格的数值比较，考虑浮点数精度问题
+            let status: string;
+            let colorClass: string;
+            let displayAmount: string;
+
+            if (balance.balance > 0.01) {
+              status = '应收';
+              colorClass = 'text-green-600';
+              displayAmount = `+${formatCurrency(balance.balance)}`;
+            } else if (balance.balance < -0.01) {
+              status = '应付';
+              colorClass = 'text-red-600';
+              displayAmount = formatCurrency(Math.abs(balance.balance));
+            } else {
+              status = '已结清';
+              colorClass = 'text-gray-600';
+              displayAmount = formatCurrency(0);
+            }
 
             return (
               <div
@@ -136,21 +152,15 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
                       <h3 className="text-lg font-medium text-gray-900">
                         {getPersonName(balance.personId)}
                       </h3>
-                      <p className="text-sm text-gray-500">
-                        {isCreditor && '应收款'}
-                        {isDebtor && '应付款'}
-                        {!isCreditor && !isDebtor && '已结清'}
+                      <p className={`text-sm font-medium ${colorClass}`}>
+                        {status}
                       </p>
                     </div>
                   </div>
 
                   <div className="text-right">
-                    <div className={`
-                      text-lg font-semibold
-                      ${isCreditor ? 'text-green-600' : isDebtor ? 'text-red-600' : 'text-gray-600'}
-                    `}>
-                      {isCreditor && '+'}
-                      {formatCurrency(Math.abs(balance.balance))}
+                    <div className={`text-lg font-semibold ${colorClass}`}>
+                      {displayAmount}
                     </div>
                   </div>
                 </div>
@@ -183,7 +193,7 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
         <div className="space-y-4">
           {settlementResult.optimalTransfers.length === 0 ? (
             <div className="text-center py-8">
-              <Icon icon="material-symbols:check-circle" className="w-12 h-12 text-green-500 mx-auto mb-3" />
+              <Icon icon="material-symbols:check-circle" className="text-4xl text-green-500 mx-auto mb-3" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">账目已平衡</h3>
               <p className="text-gray-600">所有人的账目都已平衡，无需转账</p>
             </div>
@@ -191,7 +201,7 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
             <>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                 <div className="flex items-center">
-                  <Icon icon="material-symbols:info" className="w-5 h-5 text-blue-600 mr-2" />
+                  <Icon icon="material-symbols:info" className="text-lg text-blue-600 mr-2" />
                   <p className="text-sm text-blue-800">
                     共需 {settlementResult.optimalTransfers.length} 笔转账完成结算
                   </p>
@@ -229,7 +239,7 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
                       </div>
 
                       {/* 箭头 */}
-                      <Icon icon="material-symbols:arrow-forward" className="w-6 h-6 text-gray-400" />
+                      <Icon icon="material-symbols:arrow-forward" className="text-xl text-gray-400" />
 
                       {/* 收款人 */}
                       <div className="flex items-center space-x-2">

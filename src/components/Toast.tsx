@@ -85,7 +85,7 @@ export const Toast: React.FC<ToastProps> = ({
     >
       <Icon
         icon={getIcon()}
-        className={`w-5 h-5 ${getIconColor()} mr-3 flex-shrink-0`}
+        className={`text-lg ${getIconColor()} mr-3 flex-shrink-0`}
       />
       <p className="text-sm font-medium flex-1">{message}</p>
       <button
@@ -95,7 +95,7 @@ export const Toast: React.FC<ToastProps> = ({
         }}
         className="ml-3 text-gray-400 hover:text-gray-600 transition-colors"
       >
-        <Icon icon="material-symbols:close" className="w-4 h-4" />
+        <Icon icon="material-symbols:close" className="text-sm" />
       </button>
     </div>
   );

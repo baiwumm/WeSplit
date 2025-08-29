@@ -101,7 +101,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
             </span>
 
             {selected.includes(option.value) && (
-              <Icon icon="material-symbols:check" className="w-5 h-5 text-blue-600" />
+              <Icon icon="material-symbols:check" className="text-lg text-blue-600" />
             )}
           </label>
         ))}

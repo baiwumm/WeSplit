@@ -56,6 +56,8 @@ export const calculateSettlement = (
   // 计算净余额（正数表示应收，负数表示应付）
   personBalances.forEach(balance => {
     balance.balance = balance.totalPaid - balance.totalShare;
+    // 保留两位小数精度
+    balance.balance = Math.round(balance.balance * 100) / 100;
   });
 
   // 生成最优转账方案
@@ -67,8 +69,12 @@ export const calculateSettlement = (
 // 生成最优转账方案（贪心算法）
 const generateOptimalTransfers = (balances: PersonBalance[]): Transfer[] => {
   const transfers: Transfer[] = [];
-  const creditors = balances.filter(b => b.balance > 0.01).sort((a, b) => b.balance - a.balance);
-  const debtors = balances.filter(b => b.balance < -0.01).sort((a, b) => a.balance - b.balance);
+
+  // 创建副本避免修改原始数据
+  const balancesCopy = balances.map(b => ({ ...b }));
+
+  const creditors = balancesCopy.filter(b => b.balance > 0.01).sort((a, b) => b.balance - a.balance);
+  const debtors = balancesCopy.filter(b => b.balance < -0.01).sort((a, b) => a.balance - b.balance);
 
   let i = 0, j = 0;
 

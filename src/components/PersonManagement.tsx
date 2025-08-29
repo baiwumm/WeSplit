@@ -35,7 +35,7 @@ export const PersonManagement: React.FC<PersonManagementProps> = ({
           </p>
         </div>
         <Button onClick={() => setIsAddFormOpen(true)}>
-          <Icon icon="material-symbols:person-add" className="w-4 h-4 mr-2" />
+          <Icon icon="material-symbols:person-add" className="text-sm mr-2" />
           添加成员
         </Button>
       </div>
@@ -43,11 +43,11 @@ export const PersonManagement: React.FC<PersonManagementProps> = ({
       {/* 成员列表 */}
       {people.length === 0 ? (
         <div className="text-center py-12">
-          <Icon icon="material-symbols:group" className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <Icon icon="material-symbols:group" className="text-6xl text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">还没有成员</h3>
           <p className="text-gray-600 mb-4">开始添加参与分账的成员吧</p>
           <Button onClick={() => setIsAddFormOpen(true)}>
-            <Icon icon="material-symbols:person-add" className="w-4 h-4 mr-2" />
+            <Icon icon="material-symbols:person-add" className="text-sm mr-2" />
             添加第一个成员
           </Button>
         </div>

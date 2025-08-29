@@ -51,7 +51,7 @@ export const Modal: React.FC<ModalProps> = ({
               className="flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200 p-2 rounded-lg border border-transparent hover:border-gray-200"
               title="关闭"
             >
-              <Icon icon="material-symbols:close" className="w-5 h-5" />
+              <Icon icon="material-symbols:close" className="text-lg" />
             </button>
           </div>
 

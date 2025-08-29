@@ -159,7 +159,7 @@ export const HomePage: React.FC = () => {
             {/* 左侧：当前分账组 */}
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Icon icon="material-symbols:receipt-long" className="w-6 h-6 text-white" />
+                <Icon icon="material-symbols:receipt-long" className="text-xl text-white" />
               </div>
               <div className="flex-1">
                 <h2 className="text-lg font-semibold text-gray-900">{currentGroup.name}</h2>
@@ -172,7 +172,7 @@ export const HomePage: React.FC = () => {
                 className="text-gray-400 hover:text-blue-500 transition-colors p-1"
                 title="编辑分账组"
               >
-                <Icon icon="material-symbols:edit-outline" className="w-5 h-5" />
+                <Icon icon="material-symbols:edit-outline" className="text-lg" />
               </button>
             </div>
 
@@ -186,7 +186,7 @@ export const HomePage: React.FC = () => {
                   onClick={() => handleDeleteGroup(currentGroup)}
                   className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
                 >
-                  <Icon icon="material-symbols:delete-outline" className="w-4 h-4 mr-2" />
+                  <Icon icon="material-symbols:delete-outline" className="text-sm mr-2" />
                   删除当前组
                 </Button>
               )}
@@ -198,7 +198,7 @@ export const HomePage: React.FC = () => {
                 onClick={() => setIsClearDataOpen(true)}
                 className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
               >
-                <Icon icon="material-symbols:delete-sweep" className="w-4 h-4 mr-2" />
+                <Icon icon="material-symbols:delete-sweep" className="text-sm mr-2" />
                 清空数据
               </Button>
 
@@ -210,7 +210,7 @@ export const HomePage: React.FC = () => {
                     size="sm"
                     onClick={() => setIsGroupMenuOpen(!isGroupMenuOpen)}
                   >
-                    <Icon icon="material-symbols:swap-horiz" className="w-4 h-4 mr-2" />
+                    <Icon icon="material-symbols:swap-horiz" className="text-sm mr-2" />
                     切换组
                   </Button>
 
@@ -244,7 +244,7 @@ export const HomePage: React.FC = () => {
                                 className="ml-2 p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
                                 title="删除分账组"
                               >
-                                <Icon icon="material-symbols:delete-outline" className="w-4 h-4" />
+                                <Icon icon="material-symbols:delete-outline" className="text-sm" />
                               </button>
                             )}
                           </div>
@@ -260,7 +260,7 @@ export const HomePage: React.FC = () => {
                 onClick={() => setIsCreateGroupOpen(true)}
                 size="sm"
               >
-                <Icon icon="material-symbols:add" className="w-4 h-4 mr-2" />
+                <Icon icon="material-symbols:add" className="text-sm mr-2" />
                 新建组
               </Button>
             </div>

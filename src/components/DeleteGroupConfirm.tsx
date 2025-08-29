@@ -37,7 +37,7 @@ export const DeleteGroupConfirm: React.FC<DeleteGroupConfirmProps> = ({
         {/* 警告图标和提示 */}
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-            <Icon icon="material-symbols:warning" className="w-6 h-6 text-red-600" />
+            <Icon icon="material-symbols:warning" className="text-2xl text-red-600" />
           </div>
           <div>
             <h3 className="text-lg font-medium text-gray-900">确认删除分账组？</h3>
@@ -81,7 +81,7 @@ export const DeleteGroupConfirm: React.FC<DeleteGroupConfirmProps> = ({
             onClick={handleConfirm}
             className="bg-red-600 hover:bg-red-700 text-white"
           >
-            <Icon icon="material-symbols:delete-forever" className="w-4 h-4 mr-2" />
+            <Icon icon="material-symbols:delete-forever" className="text-sm mr-2" />
             确认删除
           </Button>
         </div>

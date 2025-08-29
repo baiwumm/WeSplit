@@ -76,7 +76,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
           <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
             <Icon
               icon={getCategoryIcon(expense.category)}
-              className="w-5 h-5 text-blue-600"
+              className="text-lg text-blue-600"
             />
           </div>
           <div>
@@ -95,7 +95,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
               className="text-gray-400 hover:text-blue-500 transition-colors p-1"
               title="编辑消费记录"
             >
-              <Icon icon="material-symbols:edit-outline" className="w-5 h-5" />
+              <Icon icon="material-symbols:edit-outline" className="text-lg" />
             </button>
           )}
           {!showDeleteConfirm ? (
@@ -104,7 +104,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
               className="text-gray-400 hover:text-red-500 transition-colors p-1"
               title="删除消费记录"
             >
-              <Icon icon="material-symbols:delete-outline" className="w-5 h-5" />
+              <Icon icon="material-symbols:delete-outline" className="text-lg" />
             </button>
           ) : (
             <div className="flex items-center space-x-1">
@@ -113,14 +113,14 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
                 className="text-red-500 hover:text-red-700 transition-colors p-1"
                 title="确认删除"
               >
-                <Icon icon="material-symbols:check" className="w-4 h-4" />
+                <Icon icon="material-symbols:check" className="text-sm" />
               </button>
               <button
                 onClick={handleCancelDelete}
                 className="text-gray-400 hover:text-gray-600 transition-colors p-1"
                 title="取消删除"
               >
-                <Icon icon="material-symbols:close" className="w-4 h-4" />
+                <Icon icon="material-symbols:close" className="text-sm" />
               </button>
             </div>
           )}
@@ -130,7 +130,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
       {/* 付款人信息 */}
       <div className="mb-3">
         <div className="flex items-center space-x-2">
-          <Icon icon="material-symbols:payments" className="w-4 h-4 text-green-600" />
+          <Icon icon="material-symbols:payments" className="text-sm text-green-600" />
           <span className="text-sm text-gray-600">付款人：</span>
           <div className="flex items-center space-x-2">
             <div className={`
@@ -151,7 +151,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
       {/* 参与者信息 */}
       <div className="mb-3">
         <div className="flex items-start space-x-2">
-          <Icon icon="material-symbols:group" className="w-4 h-4 text-blue-600 mt-0.5" />
+          <Icon icon="material-symbols:group" className="text-sm text-blue-600 mt-0.5" />
           <div className="flex-1">
             <span className="text-sm text-gray-600">参与者：</span>
             <div className="flex flex-wrap items-center gap-2 mt-1">

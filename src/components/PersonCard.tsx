@@ -88,7 +88,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
                 className="text-gray-400 hover:text-red-500 transition-colors p-1"
                 title="删除成员"
               >
-                <Icon icon="material-symbols:delete-outline" className="w-5 h-5" />
+                <Icon icon="material-symbols:delete-outline" className="text-lg" />
               </button>
             ) : (
               <div className="flex items-center space-x-1">
@@ -97,14 +97,14 @@ export const PersonCard: React.FC<PersonCardProps> = ({
                   className="text-red-500 hover:text-red-700 transition-colors p-1"
                   title="确认删除"
                 >
-                  <Icon icon="material-symbols:check" className="w-4 h-4" />
+                  <Icon icon="material-symbols:check" className="text-lg" />
                 </button>
                 <button
                   onClick={handleCancelRemove}
                   className="text-gray-400 hover:text-gray-600 transition-colors p-1"
                   title="取消删除"
                 >
-                  <Icon icon="material-symbols:close" className="w-4 h-4" />
+                  <Icon icon="material-symbols:close" className="text-lg" />
                 </button>
               </div>
             )}
