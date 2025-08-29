@@ -9,6 +9,7 @@ import { Modal } from '../components/Modal';
 import { EditGroupForm } from '../components/EditGroupForm';
 import { DeleteGroupConfirm } from '../components/DeleteGroupConfirm';
 import { ClearDataConfirm } from '../components/ClearDataConfirm';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { useAppStore } from '../store/useAppStore';
 import type { Group } from '../types';
 import { Icon } from '@iconify-icon/react';
@@ -17,6 +18,7 @@ export const HomePage: React.FC = () => {
   const {
     currentGroup,
     groups,
+    createGroup,
     updateGroup,
     removeGroup,
     switchGroup,
@@ -90,6 +92,7 @@ export const HomePage: React.FC = () => {
       return;
     }
 
+    createGroup(groupForm.name, groupForm.description);
     setGroupForm({ name: '', description: '' });
     setIsCreateGroupOpen(false);
   };
@@ -141,19 +144,19 @@ export const HomePage: React.FC = () => {
 
   if (!currentGroup) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">欢迎使用人均分账</h1>
-          <p className="text-gray-600">正在加载...</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">欢迎使用人均分账</h1>
+          <p className="text-gray-600 dark:text-gray-400">正在加载...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* 导航栏 */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             {/* 左侧：当前分账组 */}
@@ -162,14 +165,14 @@ export const HomePage: React.FC = () => {
                 <Icon icon="material-symbols:receipt-long" className="text-xl text-white" />
               </div>
               <div className="flex-1">
-                <h2 className="text-lg font-semibold text-gray-900">{currentGroup.name}</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{currentGroup.name}</h2>
                 {currentGroup.description && (
-                  <p className="text-sm text-gray-600">{currentGroup.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{currentGroup.description}</p>
                 )}
               </div>
               <button
                 onClick={() => setIsEditGroupOpen(true)}
-                className="text-gray-400 hover:text-blue-500 transition-colors p-1"
+                className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors p-1"
                 title="编辑分账组"
               >
                 <Icon icon="material-symbols:edit-outline" className="text-lg" />
@@ -178,6 +181,8 @@ export const HomePage: React.FC = () => {
 
             {/* 右侧：操作按钮 */}
             <div className="flex items-center space-x-3">
+              {/* 主题切换按钮 */}
+              <ThemeToggle />
               {/* 删除当前分账组 */}
               {groups.length > 1 && (
                 <Button

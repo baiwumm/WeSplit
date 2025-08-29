@@ -89,8 +89,8 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
     <Modal isOpen={isOpen} onClose={handleClose} title="编辑消费记录" size="lg">
       <form onSubmit={handleSubmit} className="space-y-6">
         {errors.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-md p-3">
-            <ul className="text-sm text-red-600">
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-3">
+            <ul className="text-sm text-red-600 dark:text-red-400">
               {errors.map((error, index) => (
                 <li key={index}>{error}</li>
               ))}
@@ -150,7 +150,7 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
           placeholder="添加备注信息"
         />
 
-        <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+        <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
           <Button
             variant="outline"
             onClick={handleClose}

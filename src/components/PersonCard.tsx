@@ -55,7 +55,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow">
       <div className="flex items-center space-x-3">
         {/* 头像 */}
         <div className={`
@@ -71,10 +71,10 @@ export const PersonCard: React.FC<PersonCardProps> = ({
 
         {/* 姓名和时间 */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-medium text-gray-900 truncate">
+          <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">
             {person.name}
           </h3>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {new Date(person.createdAt).toLocaleDateString('zh-CN')}
           </p>
         </div>
@@ -85,7 +85,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
             {!showConfirm ? (
               <button
                 onClick={handleRemoveClick}
-                className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                className="text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors p-1"
                 title="删除成员"
               >
                 <Icon icon="material-symbols:delete-outline" className="text-lg" />
@@ -94,14 +94,14 @@ export const PersonCard: React.FC<PersonCardProps> = ({
               <div className="flex items-center space-x-1">
                 <button
                   onClick={handleConfirmRemove}
-                  className="text-red-500 hover:text-red-700 transition-colors p-1"
+                  className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors p-1"
                   title="确认删除"
                 >
                   <Icon icon="material-symbols:check" className="text-lg" />
                 </button>
                 <button
                   onClick={handleCancelRemove}
-                  className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                  className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1"
                   title="取消删除"
                 >
                   <Icon icon="material-symbols:close" className="text-lg" />

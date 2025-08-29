@@ -55,7 +55,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
     <div className={`space-y-3 ${className}`}>
       {label && (
         <div className="flex items-center justify-between">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             {label}
             {required && <span className="text-red-500 ml-1">*</span>}
           </label>
@@ -63,7 +63,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
             <button
               type="button"
               onClick={handleSelectAll}
-              className="text-sm text-blue-600 hover:text-blue-800"
+              className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
             >
               {selected.length === options.length ? '取消全选' : '全选'}
             </button>
@@ -75,13 +75,13 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
         {options.map(option => (
           <label
             key={option.value}
-            className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors"
+            className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
           >
             <input
               type="checkbox"
               checked={selected.includes(option.value)}
               onChange={() => handleToggle(option.value)}
-              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-gray-800"
             />
 
             {/* 头像 */}
@@ -96,23 +96,23 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
               )}
             </div>
 
-            <span className="text-sm font-medium text-gray-900 flex-1">
+            <span className="text-sm font-medium text-gray-900 dark:text-white flex-1">
               {option.label}
             </span>
 
             {selected.includes(option.value) && (
-              <Icon icon="material-symbols:check" className="text-lg text-blue-600" />
+              <Icon icon="material-symbols:check" className="text-lg text-blue-600 dark:text-blue-400" />
             )}
           </label>
         ))}
       </div>
 
       {error && (
-        <p className="text-sm text-red-600">{error}</p>
+        <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
       )}
 
       {selected.length > 0 && (
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           已选择 {selected.length} 人
         </p>
       )}

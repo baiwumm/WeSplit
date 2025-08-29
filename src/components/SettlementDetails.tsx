@@ -20,9 +20,9 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
   if (!settlementResult) {
     return (
       <div className="text-center py-12">
-        <Icon icon="material-symbols:calculate" className="text-6xl text-gray-300 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">暂无分账数据</h3>
-        <p className="text-gray-600">添加消费记录后即可查看分账结果</p>
+        <Icon icon="material-symbols:calculate" className="text-6xl text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">暂无分账数据</h3>
+        <p className="text-gray-600 dark:text-gray-400">添加消费记录后即可查看分账结果</p>
       </div>
     );
   }
@@ -59,8 +59,8 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
       {/* 标题和操作 */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">分账结算</h2>
-          <p className="text-sm text-gray-600 mt-1">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">分账结算</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
             总消费 {formatCurrency(settlementResult.totalAmount)}
           </p>
         </div>
@@ -73,15 +73,15 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
       </div>
 
       {/* 标签页 */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 dark:border-gray-700">
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setActiveTab('balances')}
             className={`
               py-2 px-1 border-b-2 font-medium text-sm transition-colors
               ${activeTab === 'balances'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }
             `}
           >
@@ -92,8 +92,8 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
             className={`
               py-2 px-1 border-b-2 font-medium text-sm transition-colors
               ${activeTab === 'transfers'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }
             `}
           >
@@ -113,22 +113,22 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
 
             if (balance.balance > 0.01) {
               status = '应收';
-              colorClass = 'text-green-600';
+              colorClass = 'text-green-600 dark:text-green-400';
               displayAmount = `+${formatCurrency(balance.balance)}`;
             } else if (balance.balance < -0.01) {
               status = '应付';
-              colorClass = 'text-red-600';
+              colorClass = 'text-red-600 dark:text-red-400';
               displayAmount = formatCurrency(Math.abs(balance.balance));
             } else {
               status = '已结清';
-              colorClass = 'text-gray-600';
+              colorClass = 'text-gray-600 dark:text-gray-400';
               displayAmount = formatCurrency(0);
             }
 
             return (
               <div
                 key={balance.personId}
-                className="bg-white rounded-lg border border-gray-200 p-4"
+                className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-3">
@@ -149,7 +149,7 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
                       )}
                     </div>
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900">
+                      <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                         {getPersonName(balance.personId)}
                       </h3>
                       <p className={`text-sm font-medium ${colorClass}`}>
@@ -166,18 +166,18 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="bg-blue-50 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-blue-700 font-medium">总支付</span>
-                      <span className="font-semibold text-blue-800">
+                      <span className="text-blue-700 dark:text-blue-300 font-medium">总支付</span>
+                      <span className="font-semibold text-blue-800 dark:text-blue-200">
                         {formatCurrency(balance.totalPaid)}
                       </span>
                     </div>
                   </div>
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                  <div className="bg-orange-50 dark:bg-orange-900/50 border border-orange-200 dark:border-orange-700 rounded-lg p-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-orange-700 font-medium">应分摊</span>
-                      <span className="font-semibold text-orange-800">
+                      <span className="text-orange-700 dark:text-orange-300 font-medium">应分摊</span>
+                      <span className="font-semibold text-orange-800 dark:text-orange-200">
                         {formatCurrency(balance.totalShare)}
                       </span>
                     </div>
@@ -193,16 +193,16 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
         <div className="space-y-4">
           {settlementResult.optimalTransfers.length === 0 ? (
             <div className="text-center py-8">
-              <Icon icon="material-symbols:check-circle" className="text-4xl text-green-500 mx-auto mb-3" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">账目已平衡</h3>
-              <p className="text-gray-600">所有人的账目都已平衡，无需转账</p>
+              <Icon icon="material-symbols:check-circle" className="text-4xl text-green-500 dark:text-green-400 mx-auto mb-3" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">账目已平衡</h3>
+              <p className="text-gray-600 dark:text-gray-400">所有人的账目都已平衡，无需转账</p>
             </div>
           ) : (
             <>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <div className="bg-blue-50 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700 rounded-lg p-4 mb-4">
                 <div className="flex items-center">
-                  <Icon icon="material-symbols:info" className="text-lg text-blue-600 mr-2" />
-                  <p className="text-sm text-blue-800">
+                  <Icon icon="material-symbols:info" className="text-lg text-blue-600 dark:text-blue-400 mr-2" />
+                  <p className="text-sm text-blue-800 dark:text-blue-200">
                     共需 {settlementResult.optimalTransfers.length} 笔转账完成结算
                   </p>
                 </div>
@@ -211,7 +211,7 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
               {settlementResult.optimalTransfers.map((transfer, index) => (
                 <div
                   key={`${transfer.fromPersonId}-${transfer.toPersonId}-${index}`}
-                  className="bg-white rounded-lg border border-gray-200 p-4"
+                  className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
@@ -233,13 +233,13 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
                             </span>
                           )}
                         </div>
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-gray-900 dark:text-white">
                           {getPersonName(transfer.fromPersonId)}
                         </span>
                       </div>
 
                       {/* 箭头 */}
-                      <Icon icon="material-symbols:arrow-forward" className="text-xl text-gray-400" />
+                      <Icon icon="material-symbols:arrow-forward" className="text-xl text-gray-400 dark:text-gray-500" />
 
                       {/* 收款人 */}
                       <div className="flex items-center space-x-2">
@@ -259,14 +259,14 @@ export const SettlementDetails: React.FC<SettlementDetailsProps> = ({
                             </span>
                           )}
                         </div>
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-gray-900 dark:text-white">
                           {getPersonName(transfer.toPersonId)}
                         </span>
                       </div>
                     </div>
 
                     {/* 金额 */}
-                    <div className="text-lg font-semibold text-red-600">
+                    <div className="text-lg font-semibold text-red-600 dark:text-red-400">
                       {formatCurrency(transfer.amount)}
                     </div>
                   </div>

@@ -280,33 +280,33 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
         {/* 海报预览 */}
         <div
           ref={posterRef}
-          className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-xl mx-auto"
+          className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900 p-8 rounded-xl mx-auto"
           style={{ width: '600px' }}
         >
           {/* 标题 */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-blue-600 dark:bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <Icon icon="material-symbols:receipt-long" className="text-2xl text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">分账结果</h1>
-            <h2 className="text-lg text-gray-700">{group.name}</h2>
-            <p className="text-sm text-gray-600 mt-2">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">分账结果</h1>
+            <h2 className="text-lg text-gray-700 dark:text-gray-300">{group.name}</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               {formatDate(settlementResult.calculatedAt)}
             </p>
           </div>
 
           {/* 总览 */}
-          <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-6 shadow-sm">
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
-                <p className="text-sm text-gray-600">总消费</p>
-                <p className="text-xl font-bold text-gray-900">
+                <p className="text-sm text-gray-600 dark:text-gray-400">总消费</p>
+                <p className="text-xl font-bold text-gray-900 dark:text-white">
                   {formatCurrency(settlementResult.totalAmount)}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">参与人数</p>
-                <p className="text-xl font-bold text-gray-900">
+                <p className="text-sm text-gray-600 dark:text-gray-400">参与人数</p>
+                <p className="text-xl font-bold text-gray-900 dark:text-white">
                   {people.length} 人
                 </p>
               </div>
@@ -315,7 +315,7 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
 
           {/* 个人明细 */}
           <div className="space-y-3 mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">个人明细</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">个人明细</h3>
             {settlementResult.personBalances.map(balance => {
               const isCreditor = balance.balance > 0.01;
               const isDebtor = balance.balance < -0.01;
@@ -323,7 +323,7 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
               return (
                 <div
                   key={balance.personId}
-                  className="bg-white rounded-lg p-4 flex items-center justify-between shadow-sm"
+                  className="bg-white dark:bg-gray-800 rounded-lg p-4 flex items-center justify-between shadow-sm"
                 >
                   <div className="flex items-center space-x-3">
                     <div className={`
@@ -343,10 +343,10 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
                       )}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-gray-900 dark:text-white">
                         {getPersonName(balance.personId)}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         支付 {formatCurrency(balance.totalPaid)} · 分摊 {formatCurrency(balance.totalShare)}
                       </p>
                     </div>
@@ -354,7 +354,7 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
 
                   <div className={`
                     text-right font-semibold
-                    ${isCreditor ? 'text-green-600' : isDebtor ? 'text-red-600' : 'text-gray-600'}
+                    ${isCreditor ? 'text-green-600 dark:text-green-400' : isDebtor ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'}
                   `}>
                     <p className="text-sm">
                       {isCreditor && '应收'}
@@ -373,24 +373,24 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
 
           {/* 转账方案 */}
           {settlementResult.optimalTransfers.length > 0 && (
-            <div className="bg-white rounded-lg p-4 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">转账方案</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">转账方案</h3>
               <div className="space-y-3">
                 {settlementResult.optimalTransfers.map((transfer, index) => (
                   <div
                     key={`${transfer.fromPersonId}-${transfer.toPersonId}-${index}`}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                   >
                     <div className="flex items-center space-x-2 text-sm">
-                      <span className="font-medium">
+                      <span className="font-medium text-gray-900 dark:text-white">
                         {getPersonName(transfer.fromPersonId)}
                       </span>
-                      <Icon icon="material-symbols:arrow-forward" className="text-sm text-gray-400" />
-                      <span className="font-medium">
+                      <Icon icon="material-symbols:arrow-forward" className="text-sm text-gray-400 dark:text-gray-500" />
+                      <span className="font-medium text-gray-900 dark:text-white">
                         {getPersonName(transfer.toPersonId)}
                       </span>
                     </div>
-                    <span className="font-semibold text-red-600">
+                    <span className="font-semibold text-red-600 dark:text-red-400">
                       {formatCurrency(transfer.amount)}
                     </span>
                   </div>
@@ -400,8 +400,8 @@ export const PosterGenerator: React.FC<PosterGeneratorProps> = ({
           )}
 
           {/* 底部标识 */}
-          <div className="text-center mt-8 pt-6 border-t border-gray-300">
-            <p className="text-xs text-gray-500">
+          <div className="text-center mt-8 pt-6 border-t border-gray-300 dark:border-gray-600">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               由人均分账应用生成 · {formatDate(new Date())}
             </p>
           </div>
