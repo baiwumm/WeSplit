@@ -6,7 +6,6 @@ import { Input } from './components/Input';
 import { Modal } from './components/Modal';
 import { ThemeToggle } from './components/ThemeToggle';
 import { Icon } from '@iconify-icon/react';
-import { useTheme } from './hooks/useTheme';
 
 function App() {
   const {
@@ -17,7 +16,6 @@ function App() {
     initializeData
   } = useAppStore();
 
-  const { isDarkMode } = useTheme();
   const [isCreateGroupOpen, setIsCreateGroupOpen] = useState(false);
   const [groupForm, setGroupForm] = useState({ name: '', description: '' });
 
